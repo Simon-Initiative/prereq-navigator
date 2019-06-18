@@ -1,0 +1,11 @@
+# elm-package generated files
+elm-stuff/
+# elm-repl generated files
+repl-temp-*
+node_modules
+elm.js
+dist/
+optimized.js
+.idea
+.DS_Store
+.vscode
