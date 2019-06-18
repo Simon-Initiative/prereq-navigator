@@ -1,0 +1,43 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+  <script type="text/javascript" src="//localhost:35729/livereload.js?snipver=1" async="" defer=""></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Computational Psychology</title>
+
+  <script type="text/javascript" src="elm.js"></script>
+</head>
+
+<body bgcolor="gray">
+  <div id="navigator" />
+</body>
+
+<script type="text/javascript">
+
+  var sampleGraph = {
+    topic: { label: 'Topic D', description: 'Topic D', url: 'd' },
+    pre: [
+      { label: 'Topic A', description: 'Topic A', url: 'a' },
+      { label: 'Topic B', description: 'Topic B', url: 'b' },
+      { label: 'Topic C', description: 'Topic C', url: 'c' },
+      { label: 'Topic C1', description: 'Topic C1', url: 'c1' },
+    ],
+    post: [
+      { label: 'Some much longer topic', description: 'Topic E', url: 'e' },
+      { label: 'Medium length', description: 'Topic F', url: 'f' },
+      { label: 'What happens when it is much, much longer', description: 'Topic G', url: 'g' },
+    ]
+  };
+
+  var node = document.getElementById('navigator');
+
+  var app = Elm.Main.init({
+    node: node,
+    flags: sampleGraph
+  });
+
+</script>
+
+</html>
