@@ -3,7 +3,7 @@ module Main exposing (Model, Msg(..), init, main, subscriptions, update, view)
 import Browser
 import Dict
 import Html exposing (Html, div, li, text, ul)
-import Html.Attributes exposing (attribute)
+import Html.Attributes exposing (attribute, tabindex)
 import Html.Events exposing (..)
 import Json.Decode exposing (..)
 import Svg exposing (..)
@@ -307,15 +307,22 @@ view model =
 
 viewPrototype2 : Model -> Html Msg
 viewPrototype2 model =
-    div [ class "layout" ]
-        [ renderList Prerequisite model.graph.pre model.selected
-        , renderList Current [ model.graph.topic ] model.selected
-        , renderList PostRequisite model.graph.post model.selected
+    let
+        currentIndex =
+            List.length model.graph.pre
+
+        postIndex =
+            currentIndex + 1
+    in
+    div [ class "layout", attribute "role" "button" ]
+        [ renderList Prerequisite model.graph.pre model.selected 0
+        , renderList Current [ model.graph.topic ] model.selected currentIndex
+        , renderList PostRequisite model.graph.post model.selected postIndex
         ]
 
 
-renderListItem : TopicType -> Topic -> Topic -> Html Msg
-renderListItem topicType selected topic =
+renderListItem : TopicType -> Topic -> Int -> Topic -> Html Msg
+renderListItem topicType selected index topic =
     let
         classes =
             "list-group-item "
@@ -327,14 +334,21 @@ renderListItem topicType selected topic =
                         " unselected"
                    )
     in
-    li [ class classes, attribute "role" "button", Html.Events.onClick (SelectTopic topic) ] [ Html.text topic.label ]
+    li
+        [ class classes
+        , attribute "role" "button"
+        , tabindex index
+        , Html.Events.onClick (SelectTopic topic)
+        , Html.Events.on "keypress" (Json.Decode.succeed (SelectTopic topic))
+        ]
+        [ Html.text topic.label ]
 
 
-renderList : TopicType -> List Topic -> Topic -> Html Msg
-renderList topicType contents selected =
+renderList : TopicType -> List Topic -> Topic -> Int -> Html Msg
+renderList topicType contents selected tabIndex =
     let
         listItems =
-            List.map (renderListItem topicType selected) contents
+            List.indexedMap (\i t -> renderListItem topicType selected (i + tabIndex) t) contents
     in
     ul [ class "list-group layout-child" ] listItems
 
