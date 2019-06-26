@@ -1,7 +1,10 @@
 module Main exposing (Model, Msg(..), init, main, subscriptions, update, view)
 
 import Browser
-import Html exposing (Html, div, text)
+import Dict
+import Html exposing (Html, div, li, text, ul)
+import Html.Attributes exposing (attribute)
+import Html.Events exposing (..)
 import Json.Decode exposing (..)
 import Svg exposing (..)
 import Svg.Attributes exposing (..)
@@ -55,6 +58,25 @@ type TopicType
     = Prerequisite
     | PostRequisite
     | Current
+
+
+type alias TopicConfig =
+    { label : String
+    , colorClass : String
+    }
+
+
+getConfig : TopicType -> TopicConfig
+getConfig topicType =
+    case topicType of
+        Prerequisite ->
+            TopicConfig "Prerequisites" "pre"
+
+        Current ->
+            TopicConfig "Current Topic" "current"
+
+        PostRequisite ->
+            TopicConfig "Postrequisites" "post"
 
 
 type alias TopicGraph =
@@ -176,7 +198,7 @@ renderTopicAtPosition topic color isSelected x y =
             , fill color
             , stroke strokeColor
             , strokeWidth "2"
-            , onClick (SelectTopic topic)
+            , Svg.Events.onClick (SelectTopic topic)
             ]
             []
          ]
@@ -261,7 +283,7 @@ renderZoomControls model =
         []
         [ rect
             (zoomRectAttrs
-                ++ [ onClick ZoomIn
+                ++ [ Svg.Events.onClick ZoomIn
                    , x <| String.fromFloat (5 * model.zoomFactor + model.viewCoords.x)
                    , y <| String.fromFloat (5 * model.zoomFactor + model.viewCoords.y)
                    ]
@@ -269,7 +291,7 @@ renderZoomControls model =
             []
         , rect
             (zoomRectAttrs
-                ++ [ onClick ZoomOut
+                ++ [ Svg.Events.onClick ZoomOut
                    , x <| String.fromFloat (5 * model.zoomFactor + model.viewCoords.x)
                    , y <| String.fromFloat (15 * model.zoomFactor + model.viewCoords.y)
                    ]
@@ -280,6 +302,45 @@ renderZoomControls model =
 
 view : Model -> Html Msg
 view model =
+    viewPrototype2 model
+
+
+viewPrototype2 : Model -> Html Msg
+viewPrototype2 model =
+    div [ class "layout" ]
+        [ renderList Prerequisite model.graph.pre model.selected
+        , renderList Current [ model.graph.topic ] model.selected
+        , renderList PostRequisite model.graph.post model.selected
+        ]
+
+
+renderListItem : TopicType -> Topic -> Topic -> Html Msg
+renderListItem topicType selected topic =
+    let
+        classes =
+            "list-group-item "
+                ++ (getConfig topicType |> .colorClass)
+                ++ (if selected == topic then
+                        " selected"
+
+                    else
+                        " unselected"
+                   )
+    in
+    li [ class classes, attribute "role" "button", Html.Events.onClick (SelectTopic topic) ] [ Html.text topic.label ]
+
+
+renderList : TopicType -> List Topic -> Topic -> Html Msg
+renderList topicType contents selected =
+    let
+        listItems =
+            List.map (renderListItem topicType selected) contents
+    in
+    ul [ class "list-group layout-child" ] listItems
+
+
+viewPrototype1 : Model -> Html Msg
+viewPrototype1 model =
     let
         vb =
             String.fromFloat model.viewCoords.x ++ " " ++ String.fromFloat model.viewCoords.y ++ " " ++ String.fromFloat (defaultWidth * model.zoomFactor) ++ " " ++ String.fromFloat (defaultHeight * model.zoomFactor)
@@ -298,8 +359,8 @@ view model =
         ([ viewBox vb
          , height "400"
          , width "400"
-         , onMouseDown StartPan
-         , onMouseUp EndPan
+         , Svg.Events.onMouseDown StartPan
+         , Svg.Events.onMouseUp EndPan
          , fill "white"
          ]
             ++ possibleMouseListener
