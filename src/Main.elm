@@ -74,7 +74,7 @@ type alias TopicGraph =
 
 
 type alias Flags =
-    TopicGraph
+    Model
 
 
 type alias Coords =
@@ -90,8 +90,8 @@ type alias Model =
 
 
 init : Flags -> ( Model, Cmd Msg )
-init graph =
-    ( Model graph graph.topic, Cmd.none )
+init flags =
+    ( Model flags.graph flags.selected, Cmd.none )
 
 
 type Msg
