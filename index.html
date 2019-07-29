@@ -5,6 +5,9 @@
   <script type="text/javascript" src="//localhost:35729/livereload.js?snipver=1" async="" defer=""></script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
   <title>Computational Psychology</title>
 
   <style>
@@ -15,6 +18,12 @@
       height: 200px;
       width: 350px;
     }
+
+    .strips {
+      height: 200px;
+      width: 350px;
+    }
+
 
     .layout-child {
       width: 33%;
@@ -27,6 +36,43 @@
       padding: 0;
       margin: 0;
     }
+
+
+    .strip {
+      height: 33%;
+      display: flex;
+      flex-direction: row;
+      overflow-x: auto;
+      text-align: center;
+      justify-content: center;
+      overflow-y: hidden;
+      padding: 0;
+      margin: 0;
+    }
+
+    .strip-item {
+
+      display: block;
+      border-radius: 15px;
+      max-width: 65px;
+      min-width: 65px;
+      overflow-x: hidden;
+      overflow-y: hidden;
+      overflow: hidden;
+      margin: 3px;
+      padding: 3px;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 8pt;
+      word-wrap: none;
+      text-align: center;
+      cursor: pointer;
+    }
+
+    .strip-item:focus {
+      outline: none;
+      font-weight: bold;
+    }
+
 
     .list-group-item {
       border-radius: 15px;
@@ -77,25 +123,25 @@
 <script type="text/javascript">
 
   var sampleGraph = {
-    topic: { label: 'Topic D', description: 'Topic D', url: 'd' },
+    topic: { label: 'The Center Topic', description: 'Topic D', url: 'aaa' },
     pre: [
-      { label: 'Topic A', description: 'Topic A', url: 'a' },
+      { label: 'Topic A', description: '', url: 'a' },
       { label: 'Topic B', description: 'Topic B', url: 'b' },
       { label: 'Topic C', description: 'Topic C', url: 'c' },
-      { label: 'Topic C1', description: 'Topic C1', url: 'c1' },
-      { label: 'Topic A', description: 'Topic A', url: 'a' },
-      { label: 'Topic B', description: 'Topic B', url: 'b' },
-      { label: 'Topic C', description: 'Topic C', url: 'c' },
-      { label: 'Topic C1', description: 'Topic C1', url: 'c1' },
-      { label: 'Topic A', description: 'Topic A', url: 'a' },
-      { label: 'Topic B', description: 'Topic B', url: 'b' },
-      { label: 'Topic C', description: 'Topic C', url: 'c' },
-      { label: 'Topic C1', description: 'Topic C1', url: 'c1' }
+      { label: 'Topic D', description: 'Topic C1', url: 'd' },
+      { label: 'Topic E', description: 'Topic A', url: 'e' },
+      { label: 'Topic F', description: 'Topic B', url: 'f' },
+      { label: 'Topic G', description: 'Topic C', url: 'g' },
+      { label: 'Topic H', description: 'Topic C1', url: 'h' },
+      { label: 'Topic I', description: 'Topic A', url: 'i' },
+      { label: 'Topic J', description: 'Topic B', url: 'j' },
+      { label: 'Topic K', description: 'Topic C', url: 'k' },
+      { label: 'Topic L', description: 'Topic C1', url: 'l' }
     ],
     post: [
-      { label: 'Some much longer topic', description: 'Topic E', url: 'e' },
-      { label: 'Medium length', description: 'Topic F', url: 'f' },
-      { label: 'What happens when it is much, much longer', description: 'Topic G', url: 'g' },
+      { label: 'A short topic', description: 'Topic E', url: 'postA' },
+      { label: 'A topic of medium length', description: 'Topic F', url: 'postB' },
+      { label: 'A topic of length that should push the boundary on where the UI could do something poor', description: 'Topic G', url: 'postC' },
     ]
   };
 
@@ -104,6 +150,14 @@
   var app = Elm.Main.init({
     node: node,
     flags: sampleGraph
+  });
+
+  app.ports.selectTopic.subscribe(function (data) {
+    console.log(data);
+  });
+
+  app.ports.recenterTopic.subscribe(function (data) {
+    console.log(data);
   });
 
 </script>
