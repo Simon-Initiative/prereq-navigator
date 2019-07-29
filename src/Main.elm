@@ -1,12 +1,10 @@
 port module Main exposing (Model, Msg(..), init, main, subscriptions, update, view)
 
 import Browser
-import Dict
 import Html exposing (Html, div, li, text, ul)
 import Html.Attributes exposing (attribute, class, tabindex)
 import Html.Events exposing (..)
 import Json.Decode exposing (..)
-import Json.Encode as E
 import Time
 
 
