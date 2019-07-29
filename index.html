@@ -11,16 +11,29 @@
   <title>Computational Psychology</title>
 
   <style>
-    .layout {
+    .help {
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 8pt;
+    }
+
+
+    .outer {
       display: flex;
-      justify-content: space-between;
-      align-items: center;
+      flex-direction: column;
       height: 200px;
       width: 350px;
     }
 
+    .layout {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 180px;
+      width: 350px;
+    }
+
     .strips {
-      height: 200px;
+      height: 180;
       width: 350px;
     }
 
@@ -30,7 +43,7 @@
     }
 
     .list-group {
-      max-height: 200px;
+      max-height: 180px;
       overflow-y: scroll;
       list-style-type: none;
       padding: 0;
@@ -158,11 +171,11 @@
   });
 
   app.ports.selectTopic.subscribe(function (data) {
-    console.log(data);
+    console.log("selectTopic" + data);
   });
 
   app.ports.recenterTopic.subscribe(function (data) {
-    console.log(data);
+    console.log("recenterTopic" + data);
   });
 
 </script>
