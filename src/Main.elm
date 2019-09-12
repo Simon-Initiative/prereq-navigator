@@ -144,7 +144,7 @@ renderListItem : TopicType -> Topic -> Int -> Topic -> Html Msg
 renderListItem topicType selected index topic =
     let
         classes =
-            "list-group-item "
+            "nav-list-group-item "
                 ++ (getConfig topicType |> .colorClass)
                 ++ (if selected == topic then
                         " selected"
@@ -171,7 +171,7 @@ renderList topicType contents selected tabIndex =
         listItems =
             List.indexedMap (\i t -> renderListItem topicType selected (i + tabIndex) t) contents
     in
-    ul [ class "list-group layout-child" ] listItems
+    ul [ class "nav-list-group layout-child" ] listItems
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
