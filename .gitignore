@@ -3,7 +3,7 @@ elm-stuff/
 # elm-repl generated files
 repl-temp-*
 node_modules
-elm.js
+navigator.js
 dist/
 optimized.js
 .idea

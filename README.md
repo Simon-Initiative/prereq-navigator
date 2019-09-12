@@ -9,7 +9,7 @@ To build this:
 First: `elm install`, then
 
 ```
-elm make src/Main.elm --output=elm.js --debug
+elm make src/Main.elm --output=navigator.js --debug
 ```
 
 To run it:
